@@ -267,6 +267,6 @@ Found a bug or want to add an example? Contributions welcome!
 ## 📖 Additional Resources
 
 - Main Documentation: `../README.md`
-- Attack Datasets: `../ATTACK_DATASETS.md`
-- Defense Datasets: `../DEFENSE_DATASETS.md`
-- Detailed Dataset Info: `../AI_AGENT_SECURITY_DATASETS.md`
+- Attack Datasets: `../attack-datasets.md`
+- Defense Datasets: `../defense-datasets.md`
+- Detailed Dataset Info: `../ai-agent-security-datasets.md`

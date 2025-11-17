@@ -14,7 +14,7 @@
 | **Multi-Turn Attacks** ⭐ | 3 | [MHJ](https://huggingface.co/datasets/ScaleAI/mhj) (2.9K, 70%+ ASR) |
 | **Defenses** | 10 | [CyberSecEval2](https://huggingface.co/datasets/walledai/CyberSecEval) or [AgentDojo](https://github.com/ethz-spylab/agentdojo) |
 
-**→ [Full Dataset Guide (SIMPLIFIED)](DATASETS_SIMPLIFIED.md)** ← Start here!
+**→ [Full Dataset Guide (simplified)](datasets-simplified.md)** ← Start here!
 
 ---
 
@@ -117,11 +117,11 @@ cybersec = load_dataset("walledai/CyberSecEval")    # Industry standard
 
 | Document | Purpose | When to Use |
 |----------|---------|-------------|
-| **[DATASETS_SIMPLIFIED.md](DATASETS_SIMPLIFIED.md)** | **Quick reference tables** | **Start here!** |
-| [ATTACK_DATASETS.md](ATTACK_DATASETS.md) | Detailed attack datasets + code | Deep dive on attacks |
-| [DEFENSE_DATASETS.md](DEFENSE_DATASETS.md) | Detailed defense benchmarks + code | Building defenses |
+| **[datasets-simplified.md](datasets-simplified.md)** | **Quick reference tables** | **Start here!** |
+| [attack-datasets.md](attack-datasets.md) | Detailed attack datasets + code | Deep dive on attacks |
+| [defense-datasets.md](defense-datasets.md) | Detailed defense benchmarks + code | Building defenses |
 | [examples/](examples/) | Python scripts | Hands-on implementation |
-| [AI_AGENT_SECURITY_DATASETS.md](AI_AGENT_SECURITY_DATASETS.md) | Complete reference | Citations, full details |
+| [ai-agent-security-datasets.md](ai-agent-security-datasets.md) | Complete reference | Citations, full details |
 
 ---
 
@@ -239,7 +239,7 @@ Stay current: NeurIPS, ICLR, EMNLP, USENIX Security, IEEE S&P
 ---
 
 **TL;DR**:
-- Start with [DATASETS_SIMPLIFIED.md](DATASETS_SIMPLIFIED.md)
+- Start with [datasets-simplified.md](datasets-simplified.md)
 - Test single-turn: WildJailbreak or JailbreakBench
 - **Test multi-turn**: MHJ (70%+ ASR) ⭐ CRITICAL
 - Test defense: CyberSecEval2

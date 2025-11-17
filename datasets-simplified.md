@@ -205,8 +205,8 @@ for example in cybersec['test']:
 ## 📖 Detailed Documentation
 
 For detailed usage examples, code snippets, and installation:
-- **[ATTACK_DATASETS.md](ATTACK_DATASETS.md)** - Detailed attack dataset documentation
-- **[DEFENSE_DATASETS.md](DEFENSE_DATASETS.md)** - Detailed defense benchmark documentation
+- **[attack-datasets.md](attack-datasets.md)** - Detailed attack dataset documentation
+- **[defense-datasets.md](defense-datasets.md)** - Detailed defense benchmark documentation
 - **[examples/](examples/)** - Runnable Python scripts
 
 ---
