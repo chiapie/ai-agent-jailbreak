@@ -267,6 +267,7 @@ Found a bug or want to add an example? Contributions welcome!
 ## 📖 Additional Resources
 
 - Main Documentation: `../README.md`
+- AgentDojo Guide: `../agentdojo-guide.md`
 - Attack Datasets: `../attack-datasets.md`
 - Defense Datasets: `../defense-datasets.md`
-- Detailed Dataset Info: `../ai-agent-security-datasets.md`
+- Benchmarking Methods: `../benchmarking-methods.md`
