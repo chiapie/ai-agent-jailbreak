@@ -163,6 +163,45 @@ print(f"Attack success: {results['asr']:.2%}")
 print(f"Task utility: {results['utility']:.2%}")
 ```
 
+**📖 For comprehensive AgentDojo guide with architecture, pipeline, and examples**: See [agentdojo-guide.md](agentdojo-guide.md) or [AgentDojo_Presentation.pptx](AgentDojo_Presentation.pptx)
+
+---
+
+## 🎯 AgentDojo Deep Dive
+
+**AgentDojo** is the recommended starting point for agent security testing. Unlike static datasets, it's a **dynamic framework** for evaluating LLM agents.
+
+### Key Features
+
+| Feature | Description |
+|---------|-------------|
+| **Dynamic Framework** | Not fixed tests - create new tasks, attacks, and defenses |
+| **Comprehensive** | 97 tasks, 629 security test cases |
+| **Realistic Scenarios** | Email, banking, travel, workspace agents |
+| **Joint Evaluation** | Measures security (ASR) AND utility (task completion) |
+| **Modular Pipeline** | Compose LLM + Attack + Defense components |
+| **Attack Types** | Direct injection, indirect injection, tool-knowledge |
+| **Defense Types** | Tool filter, prompt filter, spotlighting, StruQ |
+
+### Architecture
+
+```
+Task Suite → Attack Mechanism → LLM Agent → Defense System → Evaluation
+   (97)        (3 types)        (your impl)    (optional)      (ASR, Utility)
+```
+
+### Is AgentDojo Static or Dynamic?
+
+**Answer: DYNAMIC FRAMEWORK**
+
+- ✅ Extensible environment for designing new tasks, attacks, defenses
+- ✅ Composable pipeline components (not fixed test cases)
+- ✅ Supports custom agent implementations
+- ✅ Designed for the security cat-and-mouse game
+- ❌ NOT a static dataset with pre-defined prompts
+
+**📊 See [AgentDojo_Presentation.pptx](AgentDojo_Presentation.pptx) for visual architecture explanation**
+
 ---
 
 ## 💡 Use Cases
@@ -265,10 +304,12 @@ print(f"Task utility: {results['utility']:.2%}")
 | Document | Purpose |
 |----------|---------|
 | **[README.md](README.md)** | This overview |
+| **[agentdojo-guide.md](agentdojo-guide.md)** | AgentDojo usage guide, architecture & examples ⭐ NEW |
 | **[benchmarking-methods.md](benchmarking-methods.md)** | How attacks & defenses are evaluated ⭐ |
 | [attack-datasets.md](attack-datasets.md) | Detailed attack documentation |
 | [defense-datasets.md](defense-datasets.md) | Detailed defense documentation |
 | [examples/](examples/) | Code examples |
+| [AgentDojo_Presentation.pptx](AgentDojo_Presentation.pptx) | PowerPoint presentation for team briefings 📊 NEW |
 
 ---
 
