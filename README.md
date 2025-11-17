@@ -1,279 +1,232 @@
-# AI Agent Jailbreak & Defense Datasets
+# AI Agent Security: Jailbreak & Defense Datasets
 
-A comprehensive collection of benchmarking datasets for testing AI agents' security against jailbreak attacks and prompt injection, as well as defense mechanisms.
+**25 datasets for testing AI agent security** - organized by attack type and defense
 
-## 📊 Overview
+> **🚨 Key Finding**: Multi-turn attacks achieve **70%+ success** vs <10% for single-turn attacks
 
-This repository catalogs **22 major datasets and benchmarks** (as of November 2025) organized into two main categories:
+---
 
-### 🔴 Attack Datasets (12 datasets)
-For testing vulnerabilities, jailbreak attacks, and prompt injection exploits.
-**→ [View Attack Datasets Documentation](ATTACK_DATASETS.md)** with usage examples
+## 📋 Quick Overview
 
-### 🛡️ Defense Benchmarks (10 benchmarks)
-For evaluating security defenses, mitigations, and protective mechanisms.
-**→ [View Defense Datasets Documentation](DEFENSE_DATASETS.md)** with usage examples
+| Category | Datasets | Start Here |
+|----------|----------|------------|
+| **Single-Turn Attacks** | 12 | [WildJailbreak](https://huggingface.co/datasets/allenai/wildjailbreak) (262K) or [JailbreakBench](https://huggingface.co/datasets/JailbreakBench/JBB-Behaviors) (100) |
+| **Multi-Turn Attacks** ⭐ | 3 | [MHJ](https://huggingface.co/datasets/ScaleAI/mhj) (2.9K, 70%+ ASR) |
+| **Defenses** | 10 | [CyberSecEval2](https://huggingface.co/datasets/walledai/CyberSecEval) or [AgentDojo](https://github.com/ethz-spylab/agentdojo) |
 
-### 📚 Additional Resources
-- **[Detailed Dataset Reference](AI_AGENT_SECURITY_DATASETS.md)** - Comprehensive information on all datasets
-- **[Example Scripts](examples/)** - Ready-to-use Python code for loading datasets and testing defenses
+**→ [Full Dataset Guide (SIMPLIFIED)](DATASETS_SIMPLIFIED.md)** ← Start here!
 
 ---
 
 ## 🚀 Quick Start
 
-### 1. Install Dependencies
-
 ```bash
-pip install -r examples/requirements.txt
+# Install
+pip install datasets transformers
+
+# Load datasets
+from datasets import load_dataset
+
+# Single-turn attacks
+wild = load_dataset("allenai/wildjailbreak")        # 262K diverse
+jbb = load_dataset("JailbreakBench/JBB-Behaviors")  # 100 standardized
+
+# Multi-turn attacks ⭐ CRITICAL
+mhj = load_dataset("ScaleAI/mhj")                   # 2.9K, 70%+ ASR
+
+# Defense benchmark
+cybersec = load_dataset("walledai/CyberSecEval")    # Industry standard
 ```
 
-### 2. Load Attack Datasets
+---
 
-```bash
-python examples/load_attack_datasets.py
-```
+## 📊 Dataset Tables
 
-### 3. Test Your Defense
+### 🔴 Attack Datasets
 
-```bash
-python examples/test_defense.py
-```
+#### Single-Turn (12 datasets)
 
-### 4. Use in Your Code
+| Dataset | Size | Access | Best For |
+|---------|------|--------|----------|
+| LLMail-Inject | 370K+ | [HF](https://huggingface.co/datasets/microsoft/llmail-inject-challenge) | Adaptive attacks, email agents |
+| WildJailbreak | 262K | [HF](https://huggingface.co/datasets/allenai/wildjailbreak) | Large-scale, diverse (4.6x SOTA) |
+| DAN Dataset | 15K | [Web](https://jailbreak-llms.xinyueshen.me) | Real user jailbreaks |
+| Safe-Guard | 10.3K | [HF](https://huggingface.co/datasets/xTRam1/safe-guard-prompt-injection) | Training classifiers |
+| Spikee | 1.9K | [PyPI](https://pypi.org/project/spikee/) | Quick pentesting |
+| InjecAgent | 1,054 | [GitHub](https://github.com/uiuc-kang-lab/InjecAgent) | Tool-based agents |
+| AgentDojo | 629 | [GitHub](https://github.com/ethz-spylab/agentdojo) | Agent testing (97 tasks) |
+| AdvBench | 520 | Research | Classic baseline |
+| HarmBench | 200 | Research | Comprehensive safety |
+| JailbreakBench | 100 | [HF](https://huggingface.co/datasets/JailbreakBench/JBB-Behaviors) | Standardized, 10 categories |
+| WASP | Scenarios | [GitHub](https://github.com/facebookresearch/wasp) | Web agents |
+| BIPIA | Multi-task | [GitHub](https://github.com/microsoft/BIPIA) | Indirect injection |
+
+#### Multi-Turn (3 datasets) ⭐ **CRITICAL**
+
+| Dataset | Size | ASR | Access | Organization |
+|---------|------|-----|--------|--------------|
+| **MHJ** | 2.9K prompts (537 jailbreaks) | **70%+** | [HF](https://huggingface.co/datasets/ScaleAI/mhj) | Scale AI |
+| **SafeMTData** | Multi-turn adversarial | Beats GPT-o1 | [GitHub](https://github.com/AI45Lab/ActorAttack) | ICLR 2025 |
+| **CoSafe** | 1.4K (14 categories) | 13.9%-56% | [GitHub](https://github.com/ErxinYu/CoSafe-Dataset) | EMNLP 2024 |
+
+> **Why multi-turn matters**: Human attackers use conversations (70%+ success) vs automated single prompts (<10% success)
+
+### 🛡️ Defense Benchmarks (10)
+
+| Benchmark | Size/Type | Performance | Access |
+|-----------|-----------|-------------|--------|
+| TaskTracker | 31K samples | Position-aware | Research (Abdelnabi 2024) |
+| CyberSecEval2 | 55 tests | 26-41% baseline ASR | [HF](https://huggingface.co/datasets/walledai/CyberSecEval) |
+| SEP | 9.1K | Unique injections | Research |
+| AlpacaFarm | 805 | Utility vs security | Research |
+| AgentDojo | 629 tests | <25% attack success | [GitHub](https://github.com/ethz-spylab/agentdojo) |
+| Open-Prompt-Injection | Framework | Standardized eval | [GitHub](https://github.com/liu00222/Open-Prompt-Injection) |
+| DefensiveTokens | Test-time | 0.24% ASR | [Paper](https://arxiv.org/abs/2507.07974) |
+| Task Shield | Agent defense | 2.07% ASR, 69.79% utility | AgentDojo |
+| StruQ | Structural | Near-zero ASR | USENIX Security 2025 |
+| Meta SecAlign | Training-time | SOTA | [Paper](https://arxiv.org/abs/2507.02735) |
+
+**Defense Performance**: 0% (Multi-Agent) → 0.24% (DefensiveTokens) → 2.07% (Task Shield) → 26-41% (Baseline)
+
+---
+
+## 💡 Use Cases
+
+### Test a Chatbot/LLM
+1. **Quick check**: JailbreakBench (100 behaviors)
+2. **Comprehensive**: WildJailbreak (262K diverse)
+3. **Realistic**: MHJ multi-turn (2.9K, 70%+ ASR) ⭐
+
+### Test an Agent
+1. **Start**: AgentDojo (97 tasks, comprehensive)
+2. **Tools**: InjecAgent (tool misuse)
+3. **Web**: WASP (web browsing)
+
+### Test a Defense
+1. **Industry standard**: CyberSecEval2 (55 tests)
+2. **Comprehensive**: TaskTracker (31K position-aware)
+3. **Multi-turn**: MHJ ⭐ (critical - where most defenses fail)
+
+### Train a Safety Classifier
+1. **Balanced**: Safe-Guard (10K benign+malicious)
+2. **Large-scale**: WildJailbreak (262K labeled)
+
+---
+
+## 📚 Documentation
+
+| Document | Purpose | When to Use |
+|----------|---------|-------------|
+| **[DATASETS_SIMPLIFIED.md](DATASETS_SIMPLIFIED.md)** | **Quick reference tables** | **Start here!** |
+| [ATTACK_DATASETS.md](ATTACK_DATASETS.md) | Detailed attack datasets + code | Deep dive on attacks |
+| [DEFENSE_DATASETS.md](DEFENSE_DATASETS.md) | Detailed defense benchmarks + code | Building defenses |
+| [examples/](examples/) | Python scripts | Hands-on implementation |
+| [AI_AGENT_SECURITY_DATASETS.md](AI_AGENT_SECURITY_DATASETS.md) | Complete reference | Citations, full details |
+
+---
+
+## ⚠️ Key Insights
+
+### Multi-Turn vs Single-Turn
+
+| Attack Type | Success Rate | Defense Status |
+|-------------|--------------|----------------|
+| **Multi-Turn** (MHJ) | **70%+** | ⚠️ Most defenses fail |
+| Single-Turn (automated) | <10% | ✅ Many defenses work |
+
+**Takeaway**: Multi-turn attacks are 7x more effective but only 3 datasets exist (vs 12 single-turn)
+
+### Attack Success Rates
+
+| Dataset | ASR | Notes |
+|---------|-----|-------|
+| MHJ (multi-turn) | 70%+ | Human-created conversations |
+| WASP (partial) | 86% | Web agents vulnerable |
+| InjecAgent | 24% | Tool misuse |
+| AgentDojo | <25% | Better agent defenses |
+
+---
+
+## 🏢 Major Contributors
+
+- **Scale AI**: MHJ (multi-turn)
+- **Microsoft**: BIPIA, LLMail-Inject
+- **Meta**: CyberSecEval2, WASP, SecAlign
+- **Allen AI**: WildJailbreak
+- **ETH Zurich**: AgentDojo
+- **UIUC**: InjecAgent
+- **WithSecure**: Spikee
+
+---
+
+## 🔬 Research Highlights (2024-2025)
+
+**Multi-Turn Attacks** (NEW):
+- "LLM Defenses Are Not Robust to Multi-Turn Human Jailbreaks Yet" (Scale AI, 2024)
+- "Derail Yourself: Multi-turn LLM Jailbreak Attack" (ActorAttack, 2024)
+- "CoSafe: Evaluating LLM Safety in Multi-Turn Dialogue" (EMNLP 2024)
+
+**Best Defenses**:
+- DefensiveTokens: 0.24% ASR (arXiv 2507.07974)
+- Meta SecAlign: SOTA training-time (arXiv 2507.02735)
+- StruQ: Near-zero ASR (USENIX Security 2025)
+
+---
+
+## 📖 Examples
+
+### Load and Test Multi-Turn Attacks
 
 ```python
 from datasets import load_dataset
 
-# Load an attack dataset
-attacks = load_dataset("allenai/wildjailbreak")
+# Load multi-turn jailbreaks
+mhj = load_dataset("ScaleAI/mhj")
 
-# Test your model
-for example in attacks['train'][:10]:
-    response = your_model(example['prompt'])
-    # Evaluate...
+# Iterate through conversations
+for example in mhj['test']:
+    conversation = example['conversation']
+
+    # Multi-turn dialogue
+    for turn in conversation:
+        user_msg = turn['user']
+        response = your_model(user_msg)
+
+        # Check if jailbroken
+        if is_harmful(response):
+            print(f"⚠️ Jailbreak successful at turn {turn['turn_num']}")
+```
+
+### Test Your Defense
+
+```python
+from datasets import load_dataset
+
+# Load defense benchmark
+cybersec = load_dataset("walledai/CyberSecEval")
+
+# Evaluate defense
+blocked = 0
+for example in cybersec['test']:
+    prompt = example['prompt']
+
+    # Apply your defense
+    is_safe = your_defense.check(prompt)
+
+    if not is_safe:
+        blocked += 1
+
+asr = 1 - (blocked / len(cybersec['test']))
+print(f"Attack Success Rate: {asr:.1%}")
 ```
 
 ---
 
-## 📖 Documentation Structure
+## 🚨 Critical Gap
 
-| Document | Purpose | Best For |
-|----------|---------|----------|
-| **[ATTACK_DATASETS.md](ATTACK_DATASETS.md)** | Attack datasets with code examples | Testing model vulnerabilities, red teaming |
-| **[DEFENSE_DATASETS.md](DEFENSE_DATASETS.md)** | Defense benchmarks with evaluation code | Building & testing defenses |
-| **[AI_AGENT_SECURITY_DATASETS.md](AI_AGENT_SECURITY_DATASETS.md)** | Complete reference | Comprehensive overview, citations |
-| **[examples/](examples/)** | Runnable Python scripts | Quick start, practical implementation |
-
----
-
-## 🔴 Attack Datasets - Quick Reference
-
-**→ [Full Attack Datasets Documentation with Usage Examples](ATTACK_DATASETS.md)**
-
-| Dataset | Size | Type | Best For | Access |
-|---------|------|------|----------|--------|
-| **LLMail-Inject** | 370K+ | Adaptive | Large-scale adaptive attacks | [HuggingFace](https://huggingface.co/datasets/microsoft/llmail-inject-challenge) |
-| **WildJailbreak** | 262K | In-the-wild | Diverse tactics, training data | [HuggingFace](https://huggingface.co/datasets/allenai/wildjailbreak) |
-| **DAN Dataset** | 15K | Real-world | Actual user jailbreak attempts | [Website](https://jailbreak-llms.xinyueshen.me) |
-| **Safe-Guard** | 10.3K | Classification | Training injection detectors | [HuggingFace](https://huggingface.co/datasets/xTRam1/safe-guard-prompt-injection) |
-| **Spikee** | 1.9K | Pentesting | Quick practical testing | [PyPI](https://pypi.org/project/spikee/) |
-| **InjecAgent** | 1,054 | Tool-based | Testing agent tools | [GitHub](https://github.com/uiuc-kang-lab/InjecAgent) |
-| **AgentDojo** | 629 | Agent | Comprehensive agent testing | [GitHub](https://github.com/ethz-spylab/agentdojo) |
-| **AdvBench** | 520 | Direct | Baseline jailbreaks | Research |
-| **HarmBench** | 200 | Safety | Comprehensive safety testing | Research |
-| **JailbreakBench** | 100 | Standard | Unified benchmark | [HuggingFace](https://huggingface.co/datasets/JailbreakBench/JBB-Behaviors) |
-| **WASP** | Scenarios | Web | Web agent security | [GitHub](https://github.com/facebookresearch/wasp) |
-| **BIPIA** | Multi-task | Indirect | Indirect injection testing | [GitHub](https://github.com/microsoft/BIPIA) |
-
-### By Use Case
-
-- **Testing Agents:** AgentDojo, WASP, InjecAgent
-- **Large-Scale Training:** WildJailbreak, LLMail-Inject
-- **Quick Testing:** JailbreakBench, Spikee
-- **Detector Training:** Safe-Guard, WildJailbreak
-- **Research Baseline:** AdvBench, HarmBench
-
----
-
-## 🛡️ Defense Benchmarks - Quick Reference
-
-**→ [Full Defense Datasets Documentation with Usage Examples](DEFENSE_DATASETS.md)**
-
-| Benchmark | Focus | Performance Metric | Access |
-|-----------|-------|-------------------|--------|
-| **TaskTracker** | Position-aware testing | 31K samples | Research (Abdelnabi et al., 2024) |
-| **CyberSecEval2** | Industry standard | 26-41% baseline ASR | [HuggingFace](https://huggingface.co/datasets/walledai/CyberSecEval) |
-| **SEP** | Unique injections | 9.1K samples | Research |
-| **AlpacaFarm** | Utility vs security | AlpacaEval2 WinRate | Research |
-| **DefensiveTokens** | Token-based | 0.24% ASR | [Paper](https://arxiv.org/abs/2507.07974) |
-| **Task Shield** | Agent defense | 2.07% ASR, 69.79% utility | AgentDojo benchmark |
-| **StruQ** | Structured queries | Near-zero ASR | USENIX Security 2025 |
-| **Meta SecAlign** | Training-time | SOTA security | [Paper](https://arxiv.org/abs/2507.02735) |
-| **InjecGuard** | Over-defense | Balance security/usability | [Paper](https://arxiv.org/abs/2410.22770) |
-| **Open-Prompt-Injection** | Evaluation framework | Standardized protocols | [GitHub](https://github.com/liu00222/Open-Prompt-Injection) |
-
-### Defense Performance Comparison
-
-| Defense | Attack Success Rate (ASR) ⬇️ | Utility | Context |
-|---------|------------------------------|---------|---------|
-| **Multi-Agent Pipeline** | 0% | - | 55 cases, 8 categories |
-| **DefensiveTokens** | 0.24% | High | 4 models average |
-| **Task Shield** | 2.07% | 69.79% | GPT-4o on AgentDojo |
-| **StruQ** | Near-zero | High | Optimization-free attacks |
-| **Baseline (CyberSecEval2)** | 26-41% | High | Industry baseline |
-
-*Lower ASR is better (indicates stronger defense)*
-
----
-
-## 📈 Dataset Comparison by Size
-
-| Dataset | Total Samples | Type |
-|---------|---------------|------|
-| LLMail-Inject | 370,000+ | Attack |
-| WildJailbreak | 262,000 | Attack |
-| TaskTracker | 31,000 | Defense |
-| Safe-Guard | 10,296 | Attack |
-| SEP | 9,100 | Defense |
-| DAN Dataset | 15,140 (1,405 jailbreak) | Attack |
-| Spikee | 1,912 | Attack |
-| InjecAgent | 1,054 | Attack |
-| AlpacaFarm | 805 | Defense |
-| AgentDojo | 629 tests | Attack |
-| AdvBench | 520 | Attack |
-| HarmBench | 200 | Attack |
-| JailbreakBench | 100 | Attack |
-| CyberSecEval2 | 55 | Defense |
-
----
-
-## 🎓 By Research Focus
-
-### Indirect Prompt Injection
-- **BIPIA** - First benchmark specifically for indirect injection
-- **InjecAgent** - Tool-integrated agents
-- **LLMail-Inject** - Email assistant attacks
-- **WASP** - Web agent scenarios
-
-### Direct Jailbreaking
-- **JailbreakBench** - Unified standard
-- **AdvBench** - Classic baseline
-- **HarmBench** - Comprehensive safety
-- **DAN Dataset** - Real-world attempts
-
-### Agent-Specific Security
-- **AgentDojo** - Most comprehensive
-- **InjecAgent** - Tool calling focus
-- **WASP** - Web browsing agents
-
-### Defense Evaluation
-- **TaskTracker** - Position-aware
-- **CyberSecEval2** - Industry standard
-- **Meta SecAlign** - Foundation model approach
-
-### In-the-Wild / Realistic
-- **WildJailbreak** - 5.7K unique tactic clusters
-- **DAN Dataset** - Reddit, Discord, websites
-- **LLMail-Inject** - Adaptive challenge data
-- **Spikee** - Pentesting patterns
-
----
-
-## 🏢 By Organization
-
-| Organization | Datasets |
-|--------------|----------|
-| **Microsoft** | BIPIA, LLMail-Inject |
-| **Meta** | SecAlign, WASP |
-| **Allen AI** | WildJailbreak, WildTeaming |
-| **ETH Zurich** | AgentDojo |
-| **UIUC** | InjecAgent |
-| **WithSecure** | Spikee |
-| **JailbreakBench Team** | JailbreakBench (integrates AdvBench, HarmBench) |
-
----
-
-## 🚀 Recommended Starting Points
-
-### I want to test my agent's security
-1. **Start:** [AgentDojo](https://github.com/ethz-spylab/agentdojo) - Comprehensive, standardized
-2. **Add:** [WASP](https://github.com/facebookresearch/wasp) - Realistic web scenarios
-3. **Scale:** [WildJailbreak](https://huggingface.co/datasets/allenai/wildjailbreak) - Large-scale diverse attacks
-
-### I'm building defenses
-1. **Evaluate on:** [CyberSecEval2](https://huggingface.co/datasets/walledai/CyberSecEval) - Industry standard
-2. **Deep test:** [TaskTracker](https://arxiv.org/abs/2312.14197) - 31K position-aware samples
-3. **Check utility:** [AlpacaFarm](https://arxiv.org/abs/2305.14387) - Balance security vs performance
-
-### I'm researching novel attacks
-1. **Study:** [WildJailbreak](https://huggingface.co/datasets/allenai/wildjailbreak) - 5.7K unique tactics
-2. **Test:** [Spikee](https://spikee.ai) - Real pentesting patterns
-3. **Challenge:** [LLMail-Inject](https://huggingface.co/datasets/microsoft/llmail-inject-challenge) - Adaptive scenarios
-
-### I need quick testing tools
-1. **Spikee** - Easy setup, practical patterns
-2. **JailbreakBench** - Standardized, 100 behaviors
-3. **Open-Prompt-Injection** - Framework for both attacks/defenses
-
----
-
-## 📚 Key Metrics & Performance
-
-### Attack Success Rates (ASR)
-- **AgentDojo:** <25% attack success against best agents
-- **InjecAgent:** 24% (ReAct-prompted GPT-4)
-- **WASP:** 86% partial success, low full completion
-- **CyberSecEval2:** 26-41% across all tested models
-
-### Defense Performance
-- **DefensiveTokens:** 0.24% ASR
-- **Task Shield:** 2.07% ASR with 69.79% utility
-- **Multi-Agent Pipeline:** 0% ASR (55 cases, 8 categories)
-- **StruQ:** Near-zero on optimization-free attacks
-
-### Dataset Diversity
-- **WildJailbreak:** 4.6x more diverse than SOTA
-- **WildTeaming:** 5.7K unique tactic clusters
-- **JailbreakBench:** 10 categories (OpenAI policies)
-
----
-
-## 🔗 Additional Resources
-
-### Comprehensive Guides
-- **OWASP LLM01:2025:** [Prompt Injection Guidelines](https://genai.owasp.org/llmrisk/llm01-prompt-injection/)
-- **Prompt Injection Defenses:** [tldrsec GitHub](https://github.com/tldrsec/prompt-injection-defenses)
-
-### Research Papers & Conferences
-- NeurIPS 2024 (AgentDojo, JailbreakBench, WildTeaming)
-- IEEE SaTML 2025 (LLMail-Inject)
-- USENIX Security 2025 (StruQ)
-
-### Industry Resources
-- Papers with Code - [Dataset Benchmarks](https://paperswithcode.com)
-- Hugging Face - [Primary dataset platform](https://huggingface.co/datasets)
-
----
-
-## 📖 Detailed Documentation
-
-For in-depth information about each dataset including:
-- Detailed descriptions
-- Performance metrics
-- Citation information
-- Use case recommendations
-
-See **[AI_AGENT_SECURITY_DATASETS.md](./AI_AGENT_SECURITY_DATASETS.md)**
-
----
-
-## 🤝 Contributing
-
-This is a living document. To suggest additions or corrections:
-1. Verify the dataset/benchmark is publicly available
-2. Include key metrics (size, focus, performance)
-3. Provide authoritative links (papers, repos, datasets)
+**Problem**: Only 3 multi-turn datasets vs 12 single-turn datasets
+**Impact**: Multi-turn is 7x more effective (70% vs <10% ASR)
+**Need**: More multi-turn benchmarks and defenses
 
 ---
 
@@ -281,33 +234,13 @@ This is a living document. To suggest additions or corrections:
 
 **November 2025**
 
-The field of AI agent security is rapidly evolving. New datasets and benchmarks are published regularly at major ML/Security conferences (NeurIPS, ICLR, USENIX Security, IEEE S&P, etc.).
+Stay current: NeurIPS, ICLR, EMNLP, USENIX Security, IEEE S&P
 
 ---
 
-## ⚖️ License & Citation
-
-This compilation is provided for research purposes. Individual datasets have their own licenses - please check each resource's repository for specific terms.
-
-When using multiple datasets, please cite the original papers/repositories appropriately.
-
----
-
-## 🔍 Quick Search
-
-**By Task Type:**
-- Email Security → LLMail-Inject
-- Web Browsing → WASP, AgentDojo
-- Tool Calling → InjecAgent, AgentDojo
-- General Chat → JailbreakBench, AdvBench, HarmBench
-
-**By Attack Type:**
-- Direct Jailbreak → JailbreakBench, AdvBench, DAN
-- Indirect Injection → BIPIA, InjecAgent, LLMail-Inject
-- Position-based → TaskTracker, SEP
-- Adaptive → LLMail-Inject, WildTeaming
-
-**By Model Type:**
-- Foundation Models → Meta SecAlign
-- Agent Systems → AgentDojo, WASP, InjecAgent
-- General LLMs → JailbreakBench, CyberSecEval2
+**TL;DR**:
+- Start with [DATASETS_SIMPLIFIED.md](DATASETS_SIMPLIFIED.md)
+- Test single-turn: WildJailbreak or JailbreakBench
+- **Test multi-turn**: MHJ (70%+ ASR) ⭐ CRITICAL
+- Test defense: CyberSecEval2
+- Run examples: `python examples/load_attack_datasets.py`
