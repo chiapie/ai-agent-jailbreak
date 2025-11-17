@@ -3,14 +3,55 @@
 A comprehensive collection of datasets and benchmarks for testing AI agent security against jailbreak attacks and prompt injection, as well as defense mechanisms.
 
 ## Table of Contents
+- [Quick Reference](#quick-reference)
 - [Attack Datasets](#attack-datasets)
+  - [Agent-Specific Attacks](#agent-specific-attacks)
+  - [General Jailbreak Datasets](#general-jailbreak-datasets)
+  - [In-the-Wild & Realistic Datasets](#in-the-wild--realistic-datasets)
 - [Defense Datasets & Benchmarks](#defense-datasets--benchmarks)
-- [General Security Benchmarks](#general-security-benchmarks)
-- [Specialized Benchmarks](#specialized-benchmarks)
+  - [Evaluation Benchmarks](#evaluation-benchmarks)
+  - [Defense Frameworks](#defense-frameworks)
+- [Research Resources](#research-resources)
+- [Summary & Recommendations](#summary--recommendations)
+
+---
+
+## Quick Reference
+
+### Attack Datasets Summary
+
+| Dataset | Size | Type | Focus Area | Organization |
+|---------|------|------|------------|--------------|
+| **LLMail-Inject** | 370K+ | Indirect Injection | Email agents | Microsoft |
+| **WildJailbreak** | 262K | Direct + Adversarial | In-the-wild tactics | Allen AI |
+| **TaskTracker** | 31K | Position-aware | Defense testing | Research |
+| **Safe-Guard** | 10.3K | Classification | Benign vs malicious | Research |
+| **SEP** | 9.1K | Unique injections | Defense testing | Research |
+| **DAN Dataset** | 15K (1.4K jailbreak) | In-the-wild | Real user attempts | Research |
+| **Spikee** | 1.9K | Practical patterns | Pentesting | WithSecure |
+| **InjecAgent** | 1,054 | Tool-based | Agent tools | UIUC |
+| **AlpacaFarm** | 805 | Utility testing | Security vs performance | Research |
+| **AgentDojo** | 629 tests | Agent scenarios | Comprehensive | ETH Zurich |
+| **AdvBench** | 520 | Direct jailbreak | Baseline | Research |
+| **HarmBench** | 200 | Safety testing | Comprehensive | Research |
+| **JailbreakBench** | 100 | Standardized | Unified benchmark | Community |
+| **CyberSecEval2** | 55 | Industry standard | Defense testing | Meta |
+
+### Defense Performance Comparison
+
+| Defense | Attack Success Rate (ASR) | Utility | Context |
+|---------|---------------------------|---------|---------|
+| **Multi-Agent Pipeline** | 0% | - | 55 cases, 8 categories |
+| **DefensiveTokens** | 0.24% | - | 4 models average |
+| **Task Shield** | 2.07% | 69.79% | GPT-4o on AgentDojo |
+| **StruQ** | Near-zero | - | Optimization-free attacks |
+| **CyberSecEval2 Baseline** | 26-41% | - | All tested models |
 
 ---
 
 ## Attack Datasets
+
+### Agent-Specific Attacks
 
 ### 1. **AgentDojo**
 **Type:** Dynamic Environment for Agent Security Testing
@@ -26,7 +67,67 @@ A comprehensive collection of datasets and benchmarks for testing AI agent secur
 
 ---
 
-### 2. **JailbreakBench**
+---
+
+### 2. **InjecAgent**
+**Type:** Tool-Integrated Agent Benchmark
+**Focus:** Indirect prompt injection in LLM agents
+**Size:** 1,054 test cases covering 17 user tools and 62 attacker tools
+**Attack Types:**
+- Direct harm to users
+- Exfiltration of private data
+
+**Performance:** ReAct-prompted GPT-4 vulnerable 24% of the time
+**Resources:**
+- GitHub: https://github.com/uiuc-kang-lab/InjecAgent
+- Paper: arXiv 2403.02691
+- Organization: UIUC Kang Lab
+
+---
+
+### 3. **LLMail-Inject**
+**Type:** Adaptive Prompt Injection Challenge Dataset
+**Focus:** Realistic email assistant attack scenarios
+**Size:** 370,000+ attack submissions (208,095 unique attacks from 839 participants)
+**Description:** From IEEE SaTML 2025 challenge. Simulates participants adaptively attempting to inject malicious instructions into emails to trigger unauthorized tool calls. Spans multiple defense strategies, LLM architectures, and retrieval configurations.
+**Resources:**
+- Paper: arXiv 2506.09956
+- GitHub (Analysis): https://github.com/microsoft/llmail-inject-challenge-analysis
+- GitHub (Challenge): https://github.com/microsoft/llmail-inject-challenge
+- Hugging Face: https://huggingface.co/datasets/microsoft/llmail-inject-challenge
+- Website: https://microsoft.github.io/llmail-inject/
+- Organization: Microsoft
+
+---
+
+### 4. **WASP (Web Agent Security vs Prompt Injection)**
+**Type:** End-to-End Web Agent Security Benchmark
+**Focus:** Realistic web agent prompt injection
+**Environment:** Sandbox based on VisualWebArena
+**Description:** Realistic threat model where attacker is an adversarial website user (not site controller). Focuses on concrete, executable attacker goals rather than ill-defined objectives.
+**Key Findings:** Simple human-written injections succeed partially in up to 86% of cases. Current state shows "security by incompetence" - agents struggle to complete attacker goals even when partially compromised.
+**Resources:**
+- Paper: arXiv 2504.18575
+- GitHub: https://github.com/facebookresearch/wasp
+- Organization: Facebook Research
+
+---
+
+### 5. **BIPIA (Benchmark of Indirect Prompt Injection Attacks)**
+**Type:** Indirect Prompt Injection Benchmark
+**Focus:** LLM robustness against indirect attacks
+**Tasks:** QA, Web QA, Table QA, Summarization, Code QA
+**Description:** First benchmark specifically for indirect prompt injection attacks. Measures robustness of various LLMs and defenses.
+**Resources:**
+- GitHub: https://github.com/microsoft/BIPIA
+- Papers with Code: https://paperswithcode.com/dataset/bipia
+- Organization: Microsoft
+
+---
+
+### General Jailbreak Datasets
+
+### 6. **JailbreakBench**
 **Type:** Unified Jailbreak Benchmark
 **Focus:** LLM robustness against jailbreaking
 **Size:** 100 distinct misuse behaviors (JBB-Behaviors dataset)
@@ -39,7 +140,7 @@ A comprehensive collection of datasets and benchmarks for testing AI agent secur
 
 ---
 
-### 3. **AdvBench**
+### 7. **AdvBench**
 **Type:** Adversarial Prompts Dataset
 **Focus:** Harmful content elicitation
 **Size:** 520 adversarial prompts
@@ -48,7 +149,7 @@ A comprehensive collection of datasets and benchmarks for testing AI agent secur
 
 ---
 
-### 4. **HarmBench**
+### 8. **HarmBench**
 **Type:** Comprehensive Red Teaming Framework
 **Focus:** AI safety evaluation
 **Size:** 200 malicious requests (standard subset)
@@ -57,7 +158,9 @@ A comprehensive collection of datasets and benchmarks for testing AI agent secur
 
 ---
 
-### 5. **WildJailbreak**
+### In-the-Wild & Realistic Datasets
+
+### 9. **WildJailbreak**
 **Type:** Synthetic Safety-Training Dataset
 **Focus:** In-the-wild jailbreak tactics
 **Size:** 262K prompt-response pairs
@@ -76,7 +179,7 @@ A comprehensive collection of datasets and benchmarks for testing AI agent secur
 
 ---
 
-### 6. **"Do Anything Now" (DAN) Dataset**
+### 10. **"Do Anything Now" (DAN) Dataset**
 **Type:** In-the-Wild Jailbreak Prompts
 **Focus:** Real-world jailbreak attempts
 **Size:** 15,140 total prompts; 1,405 jailbreak prompts (9.3%)
@@ -88,63 +191,26 @@ A comprehensive collection of datasets and benchmarks for testing AI agent secur
 
 ---
 
-### 7. **BIPIA (Benchmark of Indirect Prompt Injection Attacks)**
-**Type:** Indirect Prompt Injection Benchmark
-**Focus:** LLM robustness against indirect attacks
-**Tasks:** QA, Web QA, Table QA, Summarization, Code QA
-**Description:** First benchmark specifically for indirect prompt injection attacks. Measures robustness of various LLMs and defenses.
+### 11. **Spikee Dataset**
+**Type:** Prompt Injection Testing Kit
+**Focus:** Real-world prompt injection patterns
+**Size:** 1,912 entries (English-only, December 2024)
+**Seed Types:**
+- Cybersecurity harms (seeds-cybersec-2025-04)
+- Harmful content (seeds-wildguardmix-harmful)
+- Topical guardrails (seeds-investment-advice)
+- System prompt extraction (seeds-sysmsg-extraction-2025-04)
+
+**Description:** Reflects common patterns from pentesting and security assurance practice. Tests standalone LLMs, guardrails, and full LLM application pipelines.
 **Resources:**
-- GitHub: https://github.com/microsoft/BIPIA
-- Papers with Code: https://paperswithcode.com/dataset/bipia
-- Organization: Microsoft
+- Website: https://spikee.ai
+- GitHub: https://github.com/WithSecureLabs/spikee
+- PyPI: https://pypi.org/project/spikee/
+- Organization: WithSecure Labs
 
 ---
 
-### 8. **InjecAgent**
-**Type:** Tool-Integrated Agent Benchmark
-**Focus:** Indirect prompt injection in LLM agents
-**Size:** 1,054 test cases covering 17 user tools and 62 attacker tools
-**Attack Types:**
-- Direct harm to users
-- Exfiltration of private data
-
-**Performance:** ReAct-prompted GPT-4 vulnerable 24% of the time
-**Resources:**
-- GitHub: https://github.com/uiuc-kang-lab/InjecAgent
-- Paper: arXiv 2403.02691
-- Organization: UIUC Kang Lab
-
----
-
-### 9. **LLMail-Inject**
-**Type:** Adaptive Prompt Injection Challenge Dataset
-**Focus:** Realistic email assistant attack scenarios
-**Size:** 370,000+ attack submissions (208,095 unique attacks from 839 participants)
-**Description:** From IEEE SaTML 2025 challenge. Simulates participants adaptively attempting to inject malicious instructions into emails to trigger unauthorized tool calls. Spans multiple defense strategies, LLM architectures, and retrieval configurations.
-**Resources:**
-- Paper: arXiv 2506.09956
-- GitHub (Analysis): https://github.com/microsoft/llmail-inject-challenge-analysis
-- GitHub (Challenge): https://github.com/microsoft/llmail-inject-challenge
-- Hugging Face: https://huggingface.co/datasets/microsoft/llmail-inject-challenge
-- Website: https://microsoft.github.io/llmail-inject/
-- Organization: Microsoft
-
----
-
-### 10. **WASP (Web Agent Security vs Prompt Injection)**
-**Type:** End-to-End Web Agent Security Benchmark
-**Focus:** Realistic web agent prompt injection
-**Environment:** Sandbox based on VisualWebArena
-**Description:** Realistic threat model where attacker is an adversarial website user (not site controller). Focuses on concrete, executable attacker goals rather than ill-defined objectives.
-**Key Findings:** Simple human-written injections succeed partially in up to 86% of cases. Current state shows "security by incompetence" - agents struggle to complete attacker goals even when partially compromised.
-**Resources:**
-- Paper: arXiv 2504.18575
-- GitHub: https://github.com/facebookresearch/wasp
-- Organization: Facebook Research
-
----
-
-### 11. **Safe-Guard-Prompt-Injection**
+### 12. **Safe-Guard-Prompt-Injection**
 **Type:** Prompt Injection Dataset
 **Focus:** Benign vs malicious prompt classification
 **Size:** 10,296 examples (prompt injection and benign)
@@ -175,7 +241,11 @@ A comprehensive collection of datasets and benchmarks for testing AI agent secur
 
 ## Defense Datasets & Benchmarks
 
-### 13. **TaskTracker**
+### Evaluation Benchmarks
+
+These benchmarks are designed to evaluate the effectiveness of defense mechanisms against prompt injection and jailbreak attacks.
+
+### 1. **TaskTracker**
 **Type:** Prompt Injection Defense Evaluation
 **Focus:** Position-aware prompt injection testing
 **Size:** 31,000+ samples
@@ -185,7 +255,7 @@ A comprehensive collection of datasets and benchmarks for testing AI agent secur
 
 ---
 
-### 14. **SEP Benchmark**
+### 2. **SEP Benchmark**
 **Type:** Security Evaluation for Prompt Injection
 **Focus:** Unique injection testing
 **Size:** 9,100 samples
@@ -194,7 +264,7 @@ A comprehensive collection of datasets and benchmarks for testing AI agent secur
 
 ---
 
-### 15. **AlpacaFarm**
+### 3. **AlpacaFarm**
 **Type:** General Instruction Dataset with Security Testing
 **Focus:** Utility vs security trade-off evaluation
 **Size:** 805 general instruction samples (208 with data parts)
@@ -204,7 +274,7 @@ A comprehensive collection of datasets and benchmarks for testing AI agent secur
 
 ---
 
-### 16. **CyberSecEval2**
+### 4. **CyberSecEval2**
 **Type:** Cybersecurity Evaluation Suite
 **Focus:** Prompt injection and code interpreter abuse
 **Size:** 55 indirect prompt injection test samples
@@ -216,9 +286,7 @@ A comprehensive collection of datasets and benchmarks for testing AI agent secur
 
 ---
 
-## General Security Benchmarks
-
-### 17. **Open-Prompt-Injection**
+### 5. **Open-Prompt-Injection**
 **Type:** Benchmark Framework
 **Focus:** Attack and defense evaluation
 **Description:** Comprehensive framework for evaluating both prompt injection attacks and defenses. Open-source benchmark with standardized evaluation protocols.
@@ -227,7 +295,7 @@ A comprehensive collection of datasets and benchmarks for testing AI agent secur
 
 ---
 
-### 18. **InjecGuard**
+### 6. **InjecGuard**
 **Type:** Over-Defense Benchmark
 **Focus:** Balancing security and usability
 **Description:** Benchmarks and mitigates over-defense in prompt injection guardrail models to prevent excessive false positives.
@@ -235,9 +303,11 @@ A comprehensive collection of datasets and benchmarks for testing AI agent secur
 
 ---
 
-## Specialized Benchmarks
+### Defense Frameworks
 
-### 19. **Meta SecAlign**
+These are defensive systems and frameworks that have demonstrated effectiveness against prompt injection attacks.
+
+### 7. **Meta SecAlign**
 **Type:** Secure Foundation LLM
 **Focus:** Training-time defense
 **Description:** State-of-the-art security against prompt injection while maintaining performance comparable to commercial LLMs. Demonstrates that security can be built into foundation models.
@@ -246,7 +316,7 @@ A comprehensive collection of datasets and benchmarks for testing AI agent secur
 
 ---
 
-### 20. **StruQ (Structured Queries)**
+### 8. **StruQ (Structured Queries)**
 **Type:** Defense Framework
 **Focus:** Structured query defense against prompt injection
 **Performance:** Near-zero attack success rates on optimization-free prompt injections
@@ -254,7 +324,7 @@ A comprehensive collection of datasets and benchmarks for testing AI agent secur
 
 ---
 
-### 21. **DefensiveTokens**
+### 9. **DefensiveTokens**
 **Type:** Test-Time Defense
 **Focus:** Token-based mitigation
 **Performance:** 0.24% attack success rate (averaged across 4 models) on manually-designed prompt injections
@@ -262,14 +332,14 @@ A comprehensive collection of datasets and benchmarks for testing AI agent secur
 
 ---
 
-### 22. **Task Shield**
+### 10. **Task Shield**
 **Type:** Agent Defense System
 **Focus:** Maintaining utility while defending
 **Performance:** 2.07% attack success rate with 69.79% task utility on GPT-4o (AgentDojo benchmark)
 
 ---
 
-## Key Research Resources
+## Research Resources
 
 ### GitHub Repositories
 - **Prompt Injection Defenses:** https://github.com/tldrsec/prompt-injection-defenses
@@ -295,7 +365,9 @@ Most datasets are available on:
 
 ---
 
-## Summary Statistics
+## Summary & Recommendations
+
+### Summary Statistics
 
 ### Attack Datasets
 - **Total Datasets:** 12 major attack datasets
