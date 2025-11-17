@@ -67,6 +67,29 @@ Conversational attacks that gradually hijack agents across multiple turns.
 
 ---
 
+## 📊 How Attacks & Defenses Are Benchmarked
+
+### Key Metrics
+
+**Attack Metrics**:
+- **ASR** (Attack Success Rate): % of attacks that succeed
+  - Good defense: <5% ASR
+  - Strong defense: <1% ASR
+- **TCR** (Task Completion Rate): % of legit tasks completed
+  - Under attack (no defense): 15-65% TCR
+  - Under attack (with defense): 70-95% TCR
+
+**Defense Metrics**:
+- **FPR** (False Positive Rate): % of benign inputs wrongly blocked
+  - Target: <5% FPR
+- **FNR** (False Negative Rate): % of attacks wrongly allowed
+  - Target: <5% FNR
+- **NRP** (Net Resilient Performance): TCR - ASR (higher is better)
+
+**📖 See [benchmarking-methods.md](benchmarking-methods.md) for complete evaluation guide**
+
+---
+
 ## 🎯 Attack Types (Agent-Specific)
 
 ### 1. Tool Injection
@@ -242,6 +265,7 @@ print(f"Task utility: {results['utility']:.2%}")
 | Document | Purpose |
 |----------|---------|
 | **[README.md](README.md)** | This overview |
+| **[benchmarking-methods.md](benchmarking-methods.md)** | How attacks & defenses are evaluated ⭐ |
 | [attack-datasets.md](attack-datasets.md) | Detailed attack documentation |
 | [defense-datasets.md](defense-datasets.md) | Detailed defense documentation |
 | [examples/](examples/) | Code examples |
