@@ -1285,31 +1285,6 @@ print(f"Defense: ASR {asr}%→{defended_asr}%, TCR {tcr}%→{defended_tcr}%")
 
 ---
 
-## Recommended Actions
-
-### For Researchers:
-1. **Focus on multi-turn defenses** (biggest gap)
-2. Collect real-world attack corpus
-3. Develop adaptive defense mechanisms
-4. Test on multiple datasets (avoid overfitting)
-5. Report both ASR and TCR (not just one)
-
-### For Practitioners:
-1. **Implement runtime monitoring** (Task Shield, StruQ)
-2. Test your agent on AgentDojo + MHJ
-3. Target: <5% ASR, >70% TCR
-4. Monitor for adaptive attacks
-5. Incident response plan for breaches
-
-### For Dataset Creators:
-1. **Build multi-turn defense benchmark** (PRIORITY)
-2. Cross-domain attack datasets
-3. Real-world attack corpus
-4. Visual injection datasets
-5. Utility preservation benchmarks
-
----
-
 ## Resources & Next Steps
 
 ### Available Now:
