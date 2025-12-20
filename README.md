@@ -10,11 +10,12 @@ Datasets for testing AI **agent** security - agents that use tools, browse the w
 
 | Category | Count | Recommended Start |
 |----------|-------|-------------------|
-| **Single-Turn Attacks** | 5 datasets | [AgentDojo](https://github.com/ethz-spylab/agentdojo) |
-| **Multi-Turn Attacks** | 3 datasets | [MHJ](https://huggingface.co/datasets/ScaleAI/mhj) ⚠️ 70%+ ASR |
-| **Defense Benchmarks** | 4 datasets | AgentDojo or TaskTracker |
+| **Single-Turn Attacks** | 8 datasets | [AgentDojo](https://github.com/ethz-spylab/agentdojo) |
+| **Multi-Turn Attacks** | 6 datasets | [MHJ](https://huggingface.co/datasets/ScaleAI/mhj) ⚠️ 70%+ ASR, [X-Teaming](https://arxiv.org/abs/2504.13203) 🔥 98.1% ASR |
+| **Defense Benchmarks** | 7 datasets | AgentDojo or BrowseSafe |
+| **Harm Evaluation** | 2 datasets | [AgentHarm](https://huggingface.co/datasets/ai-safety-institute/AgentHarm) |
 
-**Total: 12 agent-specific datasets**
+**Total: 23 agent-specific datasets** (Updated December 2025)
 
 ---
 
@@ -26,7 +27,10 @@ Datasets for testing AI **agent** security - agents that use tools, browse the w
 |---------|------|------------|---------------|------|
 | **AgentDojo** | 629 tests, 97 tasks | Email, banking, travel | Prompt injection in data | [GitHub](https://github.com/ethz-spylab/agentdojo) |
 | **InjecAgent** | 1,054 cases | Tool-calling | Tool misuse (79 tools) | [GitHub](https://github.com/uiuc-kang-lab/InjecAgent) |
+| **Agent Security Bench** | 400+ tools, 10 scenarios | Multi-domain | 27 attack types (84.3% ASR) | [GitHub](https://github.com/agiresearch/ASB) 🆕 |
 | **WASP** | Web scenarios | Web browsing | Malicious websites | [GitHub](https://github.com/facebookresearch/wasp) |
+| **BrowseSafe** | Browser-specific | AI browser agents | Webpage injection | [Paper](https://arxiv.org/abs/2511.15759) 🆕 |
+| **RAG Security Benchmark** | 847 test cases | RAG systems | 5 attack categories | Research 🆕 |
 | **BIPIA** | Multi-task | QA, Web QA | Indirect injection | [GitHub](https://github.com/microsoft/BIPIA) |
 | **LLMail-Inject** | 370K+ | Email | Malicious emails | [HuggingFace](https://huggingface.co/datasets/microsoft/llmail-inject-challenge) |
 
@@ -34,11 +38,23 @@ Datasets for testing AI **agent** security - agents that use tools, browse the w
 
 | Dataset | Size | ASR | Why It Matters | Link |
 |---------|------|-----|----------------|------|
+| **X-Teaming (XGuard-Train)** | Largest multi-turn dataset | **98.1%** 🔥 | Adaptive multi-agent attacks | [Paper](https://arxiv.org/abs/2504.13203) 🆕 |
 | **MHJ** | 2.9K prompts | **70%+** | Agents maintain context | [HuggingFace](https://huggingface.co/datasets/ScaleAI/mhj) |
+| **PE-CoA** | Pattern-based | SOTA | Pattern-specific vulnerabilities | [Paper](https://arxiv.org/abs/2510.08859) 🆕 |
+| **Bad Likert Judge** | Evaluation-based | +75% ASR | Misuses LLM evaluation capability | [Palo Alto](https://unit42.paloaltonetworks.com/multi-turn-technique-jailbreaks-llms/) 🆕 |
 | **SafeMTData** | Multi-turn | Beats GPT-o1 | Gradual manipulation | [GitHub](https://github.com/AI45Lab/ActorAttack) |
 | **CoSafe** | 1.4K | 13.9%-56% | Dialogue coreference | [GitHub](https://github.com/ErxinYu/CoSafe-Dataset) |
 
-> **Key Finding**: Multi-turn attacks achieve 70%+ success vs <25% for single-turn
+> **Key Finding**: Multi-turn attacks achieve 70-98%+ success vs <25% for single-turn
+
+---
+
+## 🎯 Harm Evaluation Datasets
+
+| Dataset | Size | Harm Categories | Focus | Link |
+|---------|------|----------------|-------|------|
+| **AgentHarm** | 110 behaviors, 330 augmented | 11 categories, 104 tools | Multi-step harmful tasks | [HuggingFace](https://huggingface.co/datasets/ai-safety-institute/AgentHarm) 🆕 |
+| **FRACTURED-SORRY-Bench** | Multi-turn | 7 scenarios | Conversational refusal undermining | [Paper](https://arxiv.org/abs/2510.08859) 🆕 |
 
 ---
 
@@ -46,18 +62,23 @@ Datasets for testing AI **agent** security - agents that use tools, browse the w
 
 | Benchmark | Size | Focus | Best Performance | Link |
 |-----------|------|-------|------------------|------|
-| **AgentDojo** | 629 tests | Complete evaluation | <25% ASR | [GitHub](https://github.com/ethz-spylab/agentdojo) |
+| **AgentDojo** | 629 tests | Complete evaluation | 2.1% ASR (Meta SecAlign) | [GitHub](https://github.com/ethz-spylab/agentdojo) |
+| **BrowseSafe** | Browser-focused | AI browser defense | Open benchmark | [Paper](https://arxiv.org/abs/2511.15759) 🆕 |
+| **RAG Security Framework** | 847 tests | RAG defense evaluation | 8.7% ASR (combined) | Research 🆕 |
 | **TaskTracker** | 31K | Position-aware injection | Hardest benchmark | Research (Abdelnabi 2024) |
 | **CyberSecEval2** | 55 | Agent prompt injection | 26-41% baseline ASR | [HuggingFace](https://huggingface.co/datasets/walledai/CyberSecEval) |
+| **Agent Security Bench** | 10 scenarios | Comprehensive security | 84.3% baseline ASR | [GitHub](https://github.com/agiresearch/ASB) 🆕 |
 | **Open-Prompt-Injection** | Framework | Standardized metrics | Evaluation framework | [GitHub](https://github.com/liu00222/Open-Prompt-Injection) |
 
 ### Defense Implementations
 
 | Defense | ASR | Type | Key Feature |
 |---------|-----|------|-------------|
-| **Task Shield** | 2.07% | Runtime monitor | Validates tool calls |
-| **StruQ** | Near-zero | Structural | Separates instructions from data |
+| **Meta SecAlign** | 0.5% (InjecAgent), 2.1% (AgentDojo) | Training-time | Built-in model security | 🆕 |
 | **DefensiveTokens** | 0.24% | Token-based | Marks trusted vs untrusted context |
+| **Task Shield** | 2.07% | Runtime monitor | Validates tool calls |
+| **RAG Combined Defense** | 8.7% | Multi-layer | Input filter + output validation |
+| **StruQ** | Near-zero | Structural | Separates instructions from data |
 
 ---
 
@@ -67,11 +88,13 @@ Datasets for testing AI **agent** security - agents that use tools, browse the w
 
 | Dataset | ASR | Risk Level | Type |
 |---------|-----|------------|------|
+| **X-Teaming** | 98.1% | 🔴🔴🔴 EXTREME | Multi-turn adaptive | 🆕 |
 | **WASP** | 86% | ⚠️⚠️⚠️ CRITICAL | Web agent |
+| **Agent Security Bench** | 84.3% | ⚠️⚠️⚠️ CRITICAL | Multi-domain | 🆕 |
 | **MHJ** | 70%+ | ⚠️⚠️⚠️ CRITICAL | Multi-turn |
 | **CoSafe** | 13.9%-56% | ⚠️⚠️ HIGH | Multi-turn |
 | **InjecAgent** | 24% | ⚠️⚠️ HIGH | Tool calling |
-| **AgentDojo** | <25% (w/ defense) | ⚠️ MODERATE | General |
+| **AgentDojo** | 2.1% (w/ SecAlign) | ⚠️ MODERATE | General |
 
 ### By Agent Type
 
@@ -187,12 +210,15 @@ print(f"Task utility: {results['utility']:.2%}")
 | Organization | Contribution |
 |--------------|-------------|
 | **ETH Zurich** | AgentDojo |
+| **Meta** | WASP, CyberSecEval2, SecAlign (0.5-2.1% ASR) 🆕 |
+| **UK AI Safety Institute** | AgentHarm 🆕 |
+| **Gray Swan AI** | AgentHarm (collaboration) 🆕 |
 | **Scale AI** | MHJ (multi-turn) |
 | **Microsoft** | BIPIA, LLMail-Inject |
-| **Meta** | WASP, CyberSecEval2 |
 | **UIUC** | InjecAgent |
 | **EMNLP 2024** | CoSafe |
-| **ICLR 2025** | SafeMTData/ActorAttack |
+| **ICLR 2025** | SafeMTData/ActorAttack, AgentHarm 🆕 |
+| **Research Community** | X-Teaming, PE-CoA, BrowseSafe, ASB 🆕 |
 
 ---
 
@@ -222,7 +248,8 @@ print(f"Task utility: {results['utility']:.2%}")
 ---
 
 **TL;DR**:
-- **12 agent-specific datasets** (5 single-turn + 3 multi-turn attacks, 4 defenses)
-- **Start with**: AgentDojo (single-turn) + MHJ (multi-turn)
-- **Critical finding**: Multi-turn attacks achieve 70%+ success vs <25% single-turn
+- **23 agent-specific datasets** (8 single-turn + 6 multi-turn attacks, 7 defenses, 2 harm eval) 🆕
+- **Start with**: AgentDojo (single-turn) + X-Teaming or MHJ (multi-turn) 🆕
+- **Critical finding**: Multi-turn attacks achieve 70-98%+ success vs <25% single-turn 🆕
 - **Agents are more vulnerable** due to tool access, untrusted data, and long context
+- **Best defense**: Meta SecAlign achieves 0.5-2.1% ASR (Dec 2025) 🆕

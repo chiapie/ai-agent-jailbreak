@@ -8,21 +8,27 @@ Datasets for testing attacks against AI **agents** - not general LLM jailbreaks.
 
 ## 📊 Quick Reference
 
-### Single-Turn Agent Attacks (5 datasets)
+### Single-Turn Agent Attacks (8 datasets)
 
 | Dataset | Size | Agent Type | Attack | Access |
 |---------|------|------------|--------|--------|
 | **AgentDojo** | 629 tests (97 tasks) | Email, banking, travel | Prompt injection in data | [GitHub](https://github.com/ethz-spylab/agentdojo) |
 | **InjecAgent** | 1,054 cases | Tool-calling | Tool misuse, exfiltration | [GitHub](https://github.com/uiuc-kang-lab/InjecAgent) |
+| **Agent Security Bench** | 400+ tools, 10 scenarios | Multi-domain | 27 attack types (84.3% ASR) | [GitHub](https://github.com/agiresearch/ASB) 🆕 |
+| **AgentHarm** | 110 behaviors, 330 augmented | Multi-step harmful | 11 harm categories, 104 tools | [HuggingFace](https://huggingface.co/datasets/ai-safety-institute/AgentHarm) 🆕 |
 | **WASP** | Web scenarios | Web browsing | Malicious website content | [GitHub](https://github.com/facebookresearch/wasp) |
+| **BrowseSafe-Bench** | Browser-specific | AI browser agents | Webpage prompt injection | Research 🆕 |
 | **BIPIA** | Multi-task | QA/RAG agents | Poisoned retrieved data | [GitHub](https://microsoft.com/BIPIA) |
 | **LLMail-Inject** | 370K+ | Email agents | Malicious email content | [HuggingFace](https://huggingface.co/datasets/microsoft/llmail-inject-challenge) |
 
-### Multi-Turn Agent Attacks (3 datasets)
+### Multi-Turn Agent Attacks (6 datasets)
 
 | Dataset | Size | ASR | Agent Type | Access |
 |---------|------|-----|------------|--------|
+| **X-Teaming (XGuard-Train)** | Largest multi-turn | **98.1%** 🔥 | Adaptive multi-agent | [Paper](https://arxiv.org/abs/2504.13203) 🆕 |
 | **MHJ** | 2.9K prompts | **70%+** | Conversational agents | [HuggingFace](https://huggingface.co/datasets/ScaleAI/mhj) |
+| **PE-CoA** | Pattern-based | SOTA | Pattern vulnerabilities | [Paper](https://arxiv.org/abs/2510.08859) 🆕 |
+| **Bad Likert Judge** | Evaluation-based | +75% ASR boost | Misuses evaluation | [Palo Alto](https://unit42.paloaltonetworks.com/multi-turn-technique-jailbreaks-llms/) 🆕 |
 | **SafeMTData** | Multi-turn | Beats GPT-o1 | General agents | [GitHub](https://github.com/AI45Lab/ActorAttack) |
 | **CoSafe** | 1.4K | 13.9%-56% | Dialogue agents | [GitHub](https://github.com/ErxinYu/CoSafe-Dataset) |
 
@@ -524,8 +530,180 @@ See **[benchmarking-methods.md](benchmarking-methods.md)** for how to evaluate:
 
 ---
 
+## 🆕 New Datasets (December 2025)
+
+### AgentHarm
+
+**Type**: Multi-step harmful behavior benchmark
+**Size**: 110 unique behaviors, 330 augmented
+**Categories**: 11 harm categories (fraud, cybercrime, harassment, etc.)
+**Tools**: 104 distinct tools
+**Source**: UK AI Safety Institute + Gray Swan AI (ICLR 2025)
+
+**What makes it unique**:
+- Tests multi-step harmful tasks requiring tool use
+- Measures jailbroken agents' ability to maintain capabilities
+- Focuses on explicitly harmful requests (direct prompting)
+
+**Key Findings**:
+- Leading LLMs surprisingly compliant without jailbreaking
+- Simple universal jailbreaks effectively compromise agents
+- Jailbreaks enable coherent multi-step malicious behavior
+
+**Installation**:
+```python
+from datasets import load_dataset
+
+agentharm = load_dataset("ai-safety-institute/AgentHarm")
+```
+
+**Resources**:
+- HuggingFace: https://huggingface.co/datasets/ai-safety-institute/AgentHarm
+- Paper: https://arxiv.org/abs/2410.09024 (ICLR 2025)
+- Website: https://ukgovernmentbeis.github.io/inspect_evals/evals/safeguards/agentharm/
+
+---
+
+### Agent Security Bench (ASB)
+
+**Type**: Comprehensive agent security framework
+**Size**: 10 scenarios, 400+ tools, 27 attack/defense methods
+**Metrics**: 7 evaluation metrics
+**ASR**: Up to 84.30% baseline
+**Source**: Research (arXiv 2024, updated May 2025)
+
+**What makes it agent-specific**:
+- Tests 10 real-world scenarios (e-commerce, autonomous driving, finance)
+- 10 prompt injection attacks + memory poisoning + backdoor attacks
+- Evaluates across 13 LLM backbones
+
+**Attack Types**:
+- 10 prompt injection variants
+- Memory poisoning attack
+- Plan-of-Thought backdoor attack (novel)
+- 4 mixed attacks
+
+**Key Findings**:
+- Critical vulnerabilities across all agent operation stages
+- System prompt, user prompt handling, tool usage, memory retrieval all vulnerable
+- Highest average ASR: 84.30%
+- Current defenses show limited effectiveness
+
+**Installation**:
+```bash
+git clone https://github.com/agiresearch/ASB
+cd ASB
+pip install -r requirements.txt
+```
+
+**Resources**:
+- GitHub: https://github.com/agiresearch/ASB
+- Paper: https://arxiv.org/abs/2410.02644
+
+---
+
+### X-Teaming (XGuard-Train Dataset)
+
+**Type**: Adaptive multi-turn jailbreak framework
+**Size**: Largest multi-turn safety dataset to date
+**ASR**: Up to 98.1% (state-of-the-art)
+**Source**: Research (arXiv 2025)
+
+**What makes it critical**:
+- Adaptive multi-agent attacks that evolve in real-time
+- Can generate fresh multi-turn jailbreaks on demand
+- Achieves highest documented ASR (98.1%)
+
+**Framework**:
+- Entire framework open-sourced
+- Includes trained models
+- Dataset available for research
+
+**Key Findings**:
+- State-of-the-art across nearly every tested model
+- Multi-agent coordination dramatically increases effectiveness
+- Adaptive attacks far more successful than static approaches
+
+**Resources**:
+- Paper: https://arxiv.org/abs/2504.13203
+- X-Teaming framework includes XGuard-Train dataset
+
+---
+
+### PE-CoA (Pattern Enhanced Multi-Turn)
+
+**Type**: Pattern-based multi-turn jailbreak
+**Performance**: State-of-the-art multi-turn attacks
+**Source**: Research (arXiv 2025)
+
+**Key Innovation**:
+- Identifies pattern-specific vulnerabilities
+- Models exhibit distinct weakness profiles per pattern
+- Robustness to one pattern doesn't generalize
+
+**Attack Method**:
+- Uses conversational patterns to exploit structural vulnerabilities
+- Pattern-aware approach more effective than generic multi-turn
+
+**Key Findings**:
+- Different conversational patterns expose different vulnerabilities
+- Defense needs to be pattern-aware, not just multi-turn aware
+- Uncovered systematic weaknesses in current safety training
+
+**Resources**:
+- Paper: https://arxiv.org/abs/2510.08859
+
+---
+
+### Bad Likert Judge
+
+**Type**: Evaluation-based multi-turn jailbreak
+**Performance**: +75 percentage points ASR improvement
+**Source**: Palo Alto Networks Unit 42 (2025)
+
+**Attack Method**:
+- Misuses LLM's evaluation capability
+- Tricks model into self-assessment during attack
+- Novel technique leveraging meta-cognitive features
+
+**Key Findings**:
+- Can increase ASR by over 75 percentage points vs baseline
+- Exploits models' evaluation and reasoning capabilities
+- Shows risk in advanced reasoning features
+
+**Resources**:
+- Article: https://unit42.paloaltonetworks.com/multi-turn-technique-jailbreaks-llms/
+
+---
+
+### BrowseSafe Benchmark
+
+**Type**: AI browser agent security benchmark
+**Focus**: Prompt injection defense in web browsing agents
+**Source**: Research (2025)
+
+**What makes it unique**:
+- First open benchmark for AI browser agents
+- Tests injection via webpage content (comments, hidden attributes, forms)
+- Includes detection model
+
+**Attack Vectors**:
+- HTML comments
+- Hidden data attributes
+- Form fields that don't render visually
+- Meta tags and structured data
+
+**Key Innovation**:
+- Standardized, realistic testing for browser agent security
+- Addresses unique challenges of parsing entire webpages
+
+**Resources**:
+- Paper: https://arxiv.org/abs/2511.15759
+
+---
+
 ## 📅 Last Updated
 
-**November 2025**
+**December 20, 2025**
 
-Track agent security: NeurIPS, ICLR, EMNLP, USENIX Security
+Track agent security: NeurIPS, ICLR, EMNLP, USENIX Security, IEEE S&P

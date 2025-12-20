@@ -19,12 +19,14 @@ A comprehensive collection of benchmarks and frameworks for evaluating defenses 
 
 | Defense | Attack Success Rate (ASR) | Utility | Context |
 |---------|---------------------------|---------|---------|
-| **Multi-Agent Pipeline** | 0% | - | 55 cases, 8 categories |
-| **DefensiveTokens** | 0.24% | - | 4 models average |
+| **Meta SecAlign** | 0.5% (InjecAgent), 2.1% (AgentDojo) | Commercial-level | Training-time defense 🆕 |
+| **DefensiveTokens** | 0.24% | High | 4 models average |
 | **Task Shield** | 2.07% | 69.79% | GPT-4o on AgentDojo |
-| **StruQ** | Near-zero | - | Optimization-free attacks |
-| **Meta SecAlign** | SOTA | Comparable to commercial | Training-time defense |
+| **RAG Combined Defense** | 8.7% | 94.3% | Multi-layer framework 🆕 |
+| **StruQ** | Near-zero | High | Optimization-free attacks |
+| **Multi-Agent Pipeline** | 0% | - | 55 cases, 8 categories |
 | **Baseline (CyberSecEval2)** | 26-41% | - | All tested models |
+| **Baseline (ASB)** | 84.3% | - | Multi-domain agents 🆕 |
 
 ---
 
@@ -526,11 +528,18 @@ def evaluate_injecguard(guardrail):
 
 ## 🛡️ Defense Frameworks
 
-### 7. **Meta SecAlign**
+### 7. **Meta SecAlign** 🆕
 
 **Purpose:** Secure foundation LLM (training-time defense)
 **Type:** Pre-trained model with built-in security
 **Performance:** SOTA security, commercial-level utility
+**Release:** July 2025
+
+**Performance Metrics:**
+- **InjecAgent**: 53.8% → 0.5% ASR (99% reduction)
+- **AgentDojo**: 14.1% → 2.1% ASR (85% reduction)
+- First open-source commercial-grade LLM with model-level defense
+- Comparable utility to closed-source commercial LLMs
 
 **Usage Example:**
 ```python
@@ -539,9 +548,9 @@ def evaluate_injecguard(guardrail):
 
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
-# Load SecAlign model
-tokenizer = AutoTokenizer.from_pretrained("meta/secalign")
-model = AutoModelForCausalLM.from_pretrained("meta/secalign")
+# Load SecAlign model (70B parameters)
+tokenizer = AutoTokenizer.from_pretrained("meta/secalign-70b")
+model = AutoModelForCausalLM.from_pretrained("meta/secalign-70b")
 
 # Test on attack dataset
 attack_prompts = load_attack_dataset()
@@ -561,13 +570,20 @@ base_model = AutoModelForCausalLM.from_pretrained("llama-2-70b")
 ```
 
 **Key Features:**
-- Security built into model weights
+- Security built into model weights during training
 - No runtime overhead
 - Maintains performance on benign tasks
+- State-of-the-art on both InjecAgent and AgentDojo
+- First open-source model with commercial-grade security
+
+**Benchmark Results:**
+- InjecAgent: 0.5% ASR (best in class)
+- AgentDojo: 2.1% ASR (beats all open-source, competitive with closed-source)
+- Used by US and UK AISI to test Claude 3.5 Sonnet vulnerability
 
 **Resources:**
 - Paper: https://arxiv.org/abs/2507.02735
-- Model: Check Meta releases
+- Model: Meta releases (check official channels)
 
 ---
 
@@ -914,9 +930,57 @@ def evaluate_agent_defense(agent_with_defense):
 
 ---
 
+## 🆕 Recent Defense Developments (December 2025)
+
+### RAG Security Framework
+
+**Purpose:** Comprehensive defense for RAG systems
+**Dataset:** 847 prompt injection test cases
+**Performance:** 8.7% ASR (from 73.2% baseline), 94.3% utility maintained
+
+**Attack Categories:**
+1. Direct injection
+2. Context manipulation
+3. Instruction override
+4. Data exfiltration
+5. Cross-context contamination
+
+**Defense Approach:**
+- Multi-layer combined framework
+- Input filtering
+- Output validation
+- Context isolation
+- Exfiltration detection
+
+**Key Results:**
+- 73.2% → 8.7% ASR (88% reduction)
+- 94.3% utility preservation
+- Effective across all 5 attack categories
+
+**Resources:**
+- Paper: https://arxiv.org/abs/2511.15759
+
+---
+
+### BrowseSafe Defense Model
+
+**Purpose:** Prompt injection defense for AI browser agents
+**Type:** Detection model + benchmark
+**Focus:** Webpage-based attacks
+
+**Key Innovation:**
+- First open-source defense for browser agents
+- Detects injections in HTML comments, hidden attributes, forms
+- Standardized testing framework
+
+**Resources:**
+- Paper: https://arxiv.org/abs/2511.15759
+
+---
+
 ## 🔄 Last Updated
 
-**November 2025**
+**December 20, 2025**
 
 For the latest defense techniques and benchmarks, monitor:
 - USENIX Security
@@ -924,6 +988,7 @@ For the latest defense techniques and benchmarks, monitor:
 - ACM CCS
 - NeurIPS (Datasets track)
 - ICLR
+- EMNLP
 
 ---
 

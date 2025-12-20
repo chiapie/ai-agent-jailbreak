@@ -2,7 +2,7 @@
 title: AI Agent Indirect Prompt Injection
 subtitle: Benchmarking, Attacks, and Defense Datasets
 author: Security Research Presentation
-date: 2025-11-27
+date: 2025-12-20 (Updated)
 ---
 
 # Part 1: Understanding Indirect Prompt Injection
@@ -1333,9 +1333,255 @@ print(f"Defense: ASR {asr}%→{defended_asr}%, TCR {tcr}%→{defended_tcr}%")
 
 ---
 
+# Part 9: December 2025 Updates
+
+---
+
+## 🆕 Major Developments (Dec 2025)
+
+### Dataset Expansion
+
+**From 12 to 23 Agent-Specific Datasets:**
+- **Single-Turn**: 5 → 8 datasets
+- **Multi-Turn**: 3 → 6 datasets
+- **Defense**: 4 → 7 datasets
+- **NEW**: 2 harm evaluation datasets
+
+**Key Additions:**
+1. **AgentHarm** (ICLR 2025) - 110 behaviors, 11 harm categories
+2. **Agent Security Bench** - 84.3% ASR, 10 scenarios, 400+ tools
+3. **X-Teaming** - 98.1% ASR (highest ever recorded)
+4. **BrowseSafe** - First browser agent benchmark
+5. **RAG Security Framework** - 847 test cases
+
+---
+
+## 🔥 Critical Finding: Multi-Turn ASR Skyrockets
+
+### Attack Success Rate Evolution
+
+```
+2024 Baseline:
+Single-Turn    ████████░░░░░░░░░░░░  24%
+Multi-Turn     ██████████████░░░░░░  70% (MHJ)
+
+December 2025:
+Single-Turn    ████████░░░░░░░░░░░░  24% (unchanged)
+Multi-Turn     ████████████████████  98.1% (X-Teaming) 🔥
+
+Increase: 28.1 percentage points (40% relative increase)
+```
+
+**Why This Matters:**
+- Multi-turn attacks now **4x more effective** than single-turn
+- X-Teaming achieves near-perfect ASR through adaptive multi-agent coordination
+- Current defenses failing catastrophically on multi-turn attacks
+
+---
+
+## 🛡️ Defense Breakthrough: Meta SecAlign
+
+### State-of-the-Art Performance (July 2025)
+
+| Benchmark | Before | After | Reduction |
+|-----------|--------|-------|-----------|
+| **InjecAgent** | 53.8% | **0.5%** | 99% ⭐ |
+| **AgentDojo** | 14.1% | **2.1%** | 85% ⭐ |
+
+**Key Achievements:**
+- First open-source commercial-grade defense
+- Training-time security (no runtime overhead)
+- Comparable utility to commercial LLMs
+- Used by US/UK AI Safety Institutes
+
+**Impact:**
+- Sets new standard for model-level defense
+- Proves training-time approaches can work
+- Opens path for secure-by-default models
+
+---
+
+## 📊 Complete Landscape (Dec 2025)
+
+### By Attack Severity
+
+| Dataset | ASR | Risk | Type |
+|---------|-----|------|------|
+| **X-Teaming** | 98.1% | 🔴 EXTREME | Multi-turn adaptive |
+| **WASP** | 86% | 🔴 CRITICAL | Web agent |
+| **ASB** | 84.3% | 🔴 CRITICAL | Multi-domain |
+| **MHJ** | 70%+ | ⚠️ CRITICAL | Multi-turn |
+| **InjecAgent** | 24% | ⚠️ HIGH | Tool calling |
+| **AgentDojo** | 2.1% | ✅ LOW | w/ SecAlign |
+
+### Defense Performance Ranking
+
+| Defense | ASR | Type | Status |
+|---------|-----|------|--------|
+| **Meta SecAlign** | 0.5-2.1% | Training | ⭐ Best |
+| **DefensiveTokens** | 0.24% | Test-time | ⭐ Excellent |
+| **Task Shield** | 2.07% | Runtime | ✅ Good |
+| **RAG Combined** | 8.7% | Multi-layer | ✅ Good |
+| **Baseline** | 24-84% | None | ❌ Vulnerable |
+
+---
+
+## 🎯 Updated Priorities (Dec 2025)
+
+### URGENT Gaps Identified
+
+1. **Multi-Turn Defense Benchmarks** 🔴
+   - Attacks: 6 datasets available
+   - Defenses: Still minimal coverage
+   - **GAP**: Can't properly test multi-turn defenses
+
+2. **Pattern-Aware Defenses** 🔴
+   - PE-CoA shows pattern-specific vulnerabilities
+   - Current defenses not pattern-aware
+   - **GAP**: Need defenses that handle different conversation patterns
+
+3. **Browser Agent Security** 🟡
+   - BrowseSafe provides first benchmark
+   - Need more defense implementations
+   - **GAP**: Limited solutions for web agents
+
+4. **Harm Evaluation** 🟡
+   - AgentHarm provides framework
+   - Need defenses specifically for harmful multi-step tasks
+   - **GAP**: Security vs safety convergence
+
+---
+
+## 💡 Actionable Recommendations
+
+### For Researchers
+
+1. **Priority #1**: Develop multi-turn defense benchmarks
+   - Build on X-Teaming, MHJ, PE-CoA datasets
+   - Test defenses across conversation patterns
+   - Measure defense degradation over turns
+
+2. **Priority #2**: Pattern-aware defense mechanisms
+   - Extend existing defenses (Task Shield, DefensiveTokens)
+   - Test robustness across different attack patterns
+   - Develop adaptive defenses
+
+3. **Priority #3**: Browser agent defenses
+   - Build on BrowseSafe benchmark
+   - Address HTML injection vectors
+   - Test against WASP scenarios
+
+---
+
+## 💡 Actionable Recommendations (Continued)
+
+### For Practitioners
+
+**Immediate Actions:**
+
+1. **Adopt Meta SecAlign** if possible
+   - 0.5-2.1% ASR proven effective
+   - No runtime overhead
+   - Open-source available
+
+2. **Test against multi-turn attacks**
+   - Don't rely only on single-turn testing
+   - Use MHJ + X-Teaming datasets
+   - Expect 70-98% ASR without defense
+
+3. **Implement multi-layer defense**
+   - RAG Combined Defense: 73.2% → 8.7% ASR
+   - Combine input filtering + output validation
+   - Maintain >90% utility
+
+**Minimum Security Posture:**
+- Test with AgentDojo + MHJ minimum
+- Target <5% ASR, >70% utility
+- Monitor for new attack patterns
+
+---
+
+## 📈 Predictions for 2026
+
+Based on December 2025 trends:
+
+1. **Multi-Turn ASR Will Approach 100%**
+   - X-Teaming at 98.1%, headroom for adaptive attacks
+   - Expect more sophisticated multi-agent approaches
+   - Defense lag will continue
+
+2. **Training-Time Defenses Will Dominate**
+   - Meta SecAlign proves effectiveness
+   - Runtime defenses can't keep up
+   - Secure-by-default models will emerge
+
+3. **Browser/Web Agents Most Vulnerable**
+   - WASP (86%), BrowseSafe emerging
+   - Rich content = more attack surface
+   - Critical focus area for 2026
+
+4. **Harm + Security Convergence**
+   - AgentHarm bridges safety/security gap
+   - Multi-step harmful tasks harder to defend
+   - Need unified frameworks
+
+---
+
+## 📚 Updated Resources (Dec 2025)
+
+### Must-Use Datasets
+
+**For Testing:**
+1. **AgentDojo** - Industry standard, now with SecAlign baseline
+2. **X-Teaming** - Highest ASR, adaptive multi-turn
+3. **Agent Security Bench** - Comprehensive, 10 scenarios
+4. **AgentHarm** - Harm evaluation
+
+**For Defense Development:**
+1. **Meta SecAlign** - Best-in-class defense (0.5-2.1% ASR)
+2. **BrowseSafe** - Browser agent benchmark
+3. **RAG Security Framework** - 847 test cases
+
+### Key Papers (2025)
+
+- **Meta SecAlign** - https://arxiv.org/abs/2507.02735
+- **AgentHarm** - https://arxiv.org/abs/2410.09024 (ICLR 2025)
+- **X-Teaming** - https://arxiv.org/abs/2504.13203
+- **Agent Security Bench** - https://arxiv.org/abs/2410.02644
+- **BrowseSafe** - https://arxiv.org/abs/2511.15759
+- **PE-CoA** - https://arxiv.org/abs/2510.08859
+
+---
+
+## 🎓 Key Lessons (Dec 2025)
+
+1. **Multi-Turn is THE Threat**
+   - 24% → 98.1% ASR difference
+   - Single-turn defenses insufficient
+   - Must test multi-turn or risk false security
+
+2. **Training Beats Runtime**
+   - SecAlign: 0.5% vs others 8-24%
+   - No overhead vs runtime cost
+   - Future is secure-by-default
+
+3. **Benchmarks Maturing Rapidly**
+   - 12 → 23 datasets in months
+   - Quality improving (ASB: 10 scenarios, 400+ tools)
+   - Standardization emerging (BrowseSafe)
+
+4. **Defense Gap Widening**
+   - Attacks advancing faster than defenses
+   - Multi-turn defense benchmarks urgently needed
+   - Pattern-aware approaches required
+
+---
+
 # Thank You
 
 **Questions?**
+
+**Updated December 20, 2025**
 
 ---
 
